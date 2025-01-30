@@ -1,61 +1,51 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect, useTransition } from "react";
+import SectionHeading from "../Helper/SectionHeading";
 
-interface Project {
+export type Project = {
   id: string;
   title: string;
   content: string;
   url: string;
-}
+};
 
-const Projects = () => {
+export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    // Appeler l'API pour récupérer les projets
-    const fetchProjects = async () => {
+  const loadProjects = async () => {
+    startTransition(async () => {
       try {
-        const response = await fetch("/app/project/projectsRoute.tsx");
+        const response = await fetch("/api/project");
+        if (!response.ok) throw new Error("Erreur de récupération des projets");
 
-        if (!response.ok) {
-          throw new Error(
-            `Erreur lors de la récupération des projets: ${response.statusText}`
-          );
-        }
         const data = await response.json();
         setProjects(data);
-        console.log(data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error.message); // Assurez-vous que 'error' est une instance de Error
-        } else {
-          setError("Erreur inconnue"); // Cas où l'erreur n'est pas une instance de Error
-        }
-        console.error("Erreur lors de la récupération des projets:", error);
-      } finally {
-        setLoading(false);
+        setError(null);
+      } catch (err) {
+        setError((err as Error).message);
       }
-    };
+    });
+  };
 
-    fetchProjects();
+  useEffect(() => {
+    loadProjects();
   }, []);
 
-  if (loading) return <p>Chargement des projets...</p>;
-  if (error) return <p>Erreur: {error}</p>;
-
   return (
-    <div>
-      <h2>Liste des Projets</h2>
-      <ul>
+    <div className="mb-36 mt-14">
+      <SectionHeading>MY PROJECTS</SectionHeading>
+      {isPending && <p>Chargement des projets...</p>}
+      {error && <p className="text-red-500">Erreur : {error}</p>}
+      <ul className="mt-20 mb-12">
         {projects.map((project) => (
-          <li key={project.id}>
+          <li key={project.id} className="p-8 m-5 bg-blue-100">
             <h3>{project.title}</h3>
             <p>{project.content}</p>
             <a
-              href="/app/project/[...id]"
+              href={`/project/${project.id}`}
               target="_blank"
               rel="noopener noreferrer">
               Voir le projet
@@ -63,8 +53,12 @@ const Projects = () => {
           </li>
         ))}
       </ul>
+      <button
+        onClick={loadProjects}
+        disabled={isPending}
+        className="m-5 px-4 py-2 bg-blue-600 text-white rounded-md">
+        Rafraîchir les projets
+      </button>
     </div>
   );
-};
-
-export default Projects;
+}
