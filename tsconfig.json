@@ -5,9 +5,9 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": false,  // Enlever noEmit ou mettre à false
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "commonjs",
     "strictNullChecks": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -22,7 +22,8 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "outDir": "./dist"  // Optionnel, pour compiler vers un dossier dist
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { createContact } from "@/app/api/route";
+import { createContact } from "@/app/actions";
 
 export type ContactFormState = {
   firstName: { value: string; errors?: string[] };
