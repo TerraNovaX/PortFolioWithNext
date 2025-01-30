@@ -1,69 +1,121 @@
-import React from "react";
+"use client";
 
-const ContactForm = () => {
+import { useActionState } from "react";
+import { createContact } from "@/app/api/route";
+
+export type ContactFormState = {
+  firstName: { value: string; errors?: string[] };
+  lastName: { value: string; errors?: string[] };
+  email: { value: string; errors?: string[] };
+  phone: { value: string; errors?: string[] };
+  message: { value: string; errors?: string[] };
+};
+
+export default function ContactForm() {
+  const [state, formAction, isPending] = useActionState<
+    ContactFormState,
+    FormData
+  >(createContact, {
+    firstName: { value: "" },
+    lastName: { value: "" },
+    email: { value: "" },
+    phone: { value: "" },
+    message: { value: "" },
+  });
+
   return (
     <div className="bg-white rounded-lg p-4 text-[#0e16ff]">
       <h1 className="text-3xl text-[#0e16ff] font-bold">
-        Lets Work Together !
+        Let&apos;s Work Together!
       </h1>
-      <p className="text- mt-3 text-base ">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum
-        lobortis felis vitae aliquet. Ut aliquet nulla vitae diam imperdiet
-        convallis. Sed pellentesque gravida est ut iaculis. Praesent sit amet
-        consequat lacus. Nullam accumsan, sapien eu venenatis pellentesque,
-        massa urna faucibus magna, et interdum ante mauris quis arcu.
-      </p>
-      <form className="mt-8 block w-full overflow-hidden">
-        <div className="flex flex-row items-center justify-between gap-4">
-          <input
-            type="text"
-            placeholder="First Name"
-            className="flex-1 placeholder:text-blue-500 bg-blue-100 px-6 py-3 rounded-md
-            border-[1.5px] border-blue-700 border-opacity-15"></input>
-          <input
-            type="text"
-            placeholder="Last Name"
-            className="flex-1 placeholder:text-blue-500 bg-blue-100 px-6 py-3 rounded-md
-            border-[1.5px] border-blue-700 border-opacity-15"></input>
+
+      <form action={formAction} className="mt-8">
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              defaultValue={state.firstName.value}
+              className="w-full bg-blue-100 px-4 py-2 rounded-md"
+            />
+            {state.firstName.errors?.map((error, index) => (
+              <p key={index} className="text-red-500">
+                {error}
+              </p>
+            ))}
+          </div>
+
+          <div className="flex-1">
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              defaultValue={state.lastName.value}
+              className="w-full bg-blue-100 px-4 py-2 rounded-md"
+            />
+            {state.lastName.errors?.map((error, index) => (
+              <p key={index} className="text-red-500">
+                {error}
+              </p>
+            ))}
+          </div>
         </div>
-        <div className="flex mt-5 flex-row items-center justify-between gap-4">
-          <input
-            type="text"
-            placeholder="Email address"
-            className="flex-1 placeholder:text-blue-500 bg-blue-100 px-6 py-3 rounded-md
-            border-[1.5px] border-blue-700 border-opacity-15"></input>
-          <input
-            type="text"
-            placeholder="Phone number"
-            className="flex-1 placeholder:text-blue-500 bg-blue-100 px-6 py-3 rounded-md
-            border-[1.5px] border-blue-700 border-opacity-15"></input>
+
+        <div className="flex gap-4 mt-4">
+          <div className="flex-1">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              defaultValue={state.email.value}
+              className="w-full bg-blue-100 px-4 py-2 rounded-md"
+            />
+            {state.email.errors?.map((error, index) => (
+              <p key={index} className="text-red-500">
+                {error}
+              </p>
+            ))}
+          </div>
+
+          <div className="flex-1">
+            <input
+              type="text"
+              name="phone"
+              placeholder="Phone"
+              defaultValue={state.phone.value}
+              className="w-full bg-blue-100 px-4 py-2 rounded-md"
+            />
+            {state.phone.errors?.map((error, index) => (
+              <p key={index} className="text-red-500">
+                {error}
+              </p>
+            ))}
+          </div>
         </div>
-        <div>
-          <select
-            className="w-full mt-5 placeholder:text-blue-500 bg-blue-100 px-4 py-3.5 rounded-md border-[1.5px]
-          border-blue-700 border-opacity-15 outline-none">
-            <option value="" disabled selected>
-              Select an option
-            </option>
-            <option value="frontend">FrontEnd Development</option>
-            <option value="backend">BackEnd Development</option>
-            <option value="fullstack">FullStack Development</option>
-          </select>
-        </div>
-        <textarea
-          rows={8}
-          className="w-full mt-5 bg-blue-100 placeholder:text-blue-500 px-4 py-3.5 
-          rounded-md border-[1.5px] border-blue-700 border-opacity-15"
-          placeholder="Message"
-        />
+
         <div className="mt-4">
-          <button className="px-8 py-3.5 text-white bg-[#0e16ff] hover:bg-[#0e16ffba] transition-all duration-300 rounded-md">
-            Send Message
-          </button>
+          <textarea
+            name="message"
+            placeholder="Message"
+            defaultValue={state.message.value}
+            className="w-full bg-blue-100 px-4 py-2 rounded-md"
+            rows={4}
+          />
+          {state.message.errors?.map((error, index) => (
+            <p key={index} className="text-red-500">
+              {error}
+            </p>
+          ))}
         </div>
+
+        <button
+          type="submit"
+          disabled={isPending}
+          className="w-full mt-4 px-4 py-2 text-white bg-[#0e16ff] rounded-md">
+          {isPending ? "Sending..." : "Send Message"}
+        </button>
       </form>
     </div>
   );
-};
-
-export default ContactForm;
+}
