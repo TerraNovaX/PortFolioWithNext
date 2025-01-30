@@ -1,3 +1,36 @@
+Hellooooo ! 🎉
+
+Je vous présente mon projet : Portfolio avec Next.js.
+
+J'ai utilisé TypeScript, Tailwind CSS, React Icons et Prisma pour le développer.
+
+Mon portfolio est composé d'une landing page, qui inclut :
+
+Une section À propos
+Une présentation de mes compétences et skills
+Un formulaire de contact
+Une section dédiée à mes projets, où chaque projet possède un lien redirigeant vers une page détaillée
+Malheureusement, je n’ai pas encore eu le temps de régler un problème d’affichage des données.
+
+Améliorations prévues :
+Optimisation des pages projets pour un meilleur affichage des informations
+Ajout d’animations pour améliorer le visuel et l'expérience utilisateur
+J’ai préféré me concentrer sur les fonctionnalités essentielles avant de peaufiner l’aspect visuel.
+
+J'espère que mon projet vous plaira ! ✌🏼🚀
+
+voici le lien de mon site https://port-folio-with-next.vercel.app
+
+
+
+
+
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -34,3 +67,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+
