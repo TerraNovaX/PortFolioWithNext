@@ -66,3 +66,9 @@ export const skillsData = [
     },
 
 ]
+
+export const infoPerso = {
+    phone: "+33 6 56 78 56 89",
+    email: "utilisateur@gmail.com",
+    address: "Paris, France",
+}
